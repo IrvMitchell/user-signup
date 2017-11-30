@@ -3,6 +3,10 @@ from flask import Flask, request, redirect, render_template
 import cgi
 import os
 
+template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+jinja_env = jinja2.Environment(
+    loader = jinja2.FileSystemLoader(template_dir))
+
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
@@ -10,7 +14,8 @@ app.config['DEBUG'] = True
 
 @app.route('/signup')
 def display_user_signup_form():
-    return render_template('main.html')
+    template = jinja_env.get_template('main.html')
+    return template.render()
 
 # VALIDATION FUNCTIONS
 
@@ -182,7 +187,8 @@ def user_signup_complete():
 
 @app.route('/welcome')
 def valid_signup():
+    template = jinja_env.get_template('welcome.html')
     username = request.args.get('username')
-    return render_template('welcome.html', username=username)
+    return template.render(username=username)
 
 app.run()
