@@ -16,7 +16,7 @@ app.config['DEBUG'] = True
 @app.route('/signup')
 def display_user_signup_form():
     template = jinja_env.get_template('main.html')
-    return template.render()
+    return render_template('main.html')
 
 # VALIDATION FUNCTIONS
 
@@ -182,7 +182,7 @@ def user_signup_complete():
         username = username
         return redirect('/welcome?username={0}'.format(username))
     else:
-        return template.render('main.html', username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
+        return render_template('main.html', username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
 
 # THIS REDIRECTS TO A WELCOME PAGE
 
@@ -190,6 +190,6 @@ def user_signup_complete():
 def valid_signup():
     template = jinja_env.get_template('welcome.html')
     username = request.args.get('username')
-    return template.render(username=username)
+    return render_template('welcome.html', username=username)
 
 app.run()
