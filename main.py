@@ -2,10 +2,11 @@ from flask import Flask, request, redirect, render_template
 
 import cgi
 import os
+import jinja2
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(
-    loader = jinja2.FileSystemLoader(template_dir))
+    loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -181,7 +182,7 @@ def user_signup_complete():
         username = username
         return redirect('/welcome?username={0}'.format(username))
     else:
-        return render_template('main.html', username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
+        return template.render('main.html', username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
 
 # THIS REDIRECTS TO A WELCOME PAGE
 
